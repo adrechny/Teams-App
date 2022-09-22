@@ -3,6 +3,7 @@ import femaleProfile from "./Images/femaleProfile.jpg";
 import maleProfile from "./Images/maleProfile.jpg";
 
 export default function Employees() {
+  let [selectedTeam, setTeam] = useState("TeamB");
   let [employees, setEmployees] = useState([
     {
       id: 1,
@@ -89,8 +90,37 @@ export default function Employees() {
       teamName: "TeamD",
     },
   ]);
+
+  function handleTeamSelectionChange(event) {
+    setTeam(event.target.value);
+  }
+  function handleEmployeeCardClick(event) {
+    let transformedEmployees = employees.map((employees) =>
+      employees.id === parseInt(event.currentTarget.id)
+        ? employees.teamName === selectedTeam
+          ? { ...employees, teamName: "" }
+          : { ...employees, teamName: selectedTeam }
+        : employees
+    );
+    setEmployees(transformedEmployees);
+  }
+
   return (
     <main className="container">
+      <div className="row justify-content-center mt-3 mb-3">
+        <div className="col-6">
+          <select
+            className="form-select form-select-lg"
+            value={selectedTeam}
+            onChange={handleTeamSelectionChange}
+          >
+            <option value="TeamA">TeamA</option>
+            <option value="TeamB">TeamB</option>
+            <option value="TeamC">TeamC</option>
+            <option value="TeamD">TeamD</option>
+          </select>
+        </div>
+      </div>
       <div className="row justify-content-center mt-3 mb-3">
         <div className="col-8">
           <div className="card-collection">
@@ -99,8 +129,13 @@ export default function Employees() {
                 <div key={index}>
                   <div
                     id={employees.id}
-                    className="card m-2"
+                    className={
+                      employees.teamName === selectedTeam
+                        ? "card m-2 standout"
+                        : "card m-2"
+                    }
                     style={{ cursor: "pointer" }}
+                    onClick={handleEmployeeCardClick}
                   >
                     {employees.gender === "male" ? (
                       <img
