@@ -44,6 +44,8 @@ export default function GroupedTeamMembers({
       collapsed: selectedTeam === "TeamD" ? false : true,
     };
     teams.push(teamD);
+
+    return teams;
   }
 
   function handleTeamClick(event) {
@@ -90,6 +92,7 @@ export default function GroupedTeamMembers({
                 );
               })}
             </div>
+            <hr />
           </div>
         );
       })}
